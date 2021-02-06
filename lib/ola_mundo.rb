@@ -1,8 +1,14 @@
-require "ola_mundo/translation"
+Dir[File.join(__dir__, "ola_mundo/languages", "*.rb")].each { |file| require file }
+require "ola_mundo/transformer"
+require "ola_mundo/translator"
+require "ola_mundo/section_translator"
+require "ola_mundo/encoder"
 
 module OlaMundo
-  def self.greet(language = "portuguese")
-    words = "hello world!"
-    Translation.new(language: language).call(words)
+  class UnsupportedFormat < StandardError; end
+
+  def self.start
+    String.send(:include, Transformer)
+    "hello world!".translate("portuguese")
   end
 end
